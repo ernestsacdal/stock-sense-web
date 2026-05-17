@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/*
+ * StockSense design tokens — light theme.
+ *
+ * Originally ported from stocksense-design.html (which was dark-mode
+ * primary). Flipped to light: surfaces become near-white, text a
+ * dark-grey ramp, borders dark with low alpha. Amber accent + status
+ * colors stay; they read fine on either substrate.
+ */
+:root {
+  /* Surfaces */
+  --bg: #FAFAFA;
+  --bg-2: #F4F4F5;
+  --bg-elevated: #FFFFFF;
+  --surface-glass: rgba(255, 255, 255, 0.7);
+  --surface-glass-strong: rgba(255, 255, 255, 0.9);
+
+  /* Borders */
+  --border: rgba(15, 23, 42, 0.08);
+  --border-strong: rgba(15, 23, 42, 0.16);
+
+  /* Text */
+  --text: #0A0B0F;
+  --text-muted: #3F3F46;
+  --text-subtle: #71717A;
+  --text-faint: #A1A1AA;
+
+  /* Accent — warm amber, the signal color for AI features */
+  --accent: #F59E0B;
+  --accent-bright: #B45309;
+  --accent-soft: rgba(245, 158, 11, 0.14);
+  --accent-glow: rgba(245, 158, 11, 0.30);
+
+  /* Status */
+  --success: #059669;
+  --success-soft: rgba(5, 150, 105, 0.12);
+  --warning: #D97706;
+  --warning-soft: rgba(217, 119, 6, 0.12);
+  --danger: #DC2626;
+  --danger-soft: rgba(220, 38, 38, 0.10);
+  --info: #0891B2;
+  --info-soft: rgba(8, 145, 178, 0.10);
+
+  /* Spacing scale */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px;
+  --s-5: 20px; --s-6: 24px; --s-8: 32px; --s-10: 40px;
+  --s-12: 48px; --s-16: 64px; --s-20: 80px; --s-24: 96px;
+
+  /* Radius */
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px;
+}
+
+/*
+ * Re-export the StockSense tokens as Tailwind v4 theme keys so utility
+ * classes (bg-bg, text-accent, rounded-lg, etc.) and shadcn primitives
+ * (which read --background, --foreground, --primary, --border…) consume
+ * the same source values.
+ */
+@theme inline {
+  /* Fonts — variables are set in app/layout.tsx via next/font */
+  --font-display: var(--font-instrument-serif);
+  --font-sans: var(--font-geist);
+  --font-mono: var(--font-geist-mono);
+
+  /* StockSense surfaces / text / accent / status — exposed as Tailwind colors */
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-surface-glass: var(--surface-glass);
+  --color-surface-glass-strong: var(--surface-glass-strong);
+
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-subtle: var(--text-subtle);
+  --color-text-faint: var(--text-faint);
+
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-glow: var(--accent-glow);
+
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  /* shadcn / base-ui aliases mapped onto our tokens */
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-card: var(--bg-elevated);
+  --color-card-foreground: var(--text);
+  --color-popover: var(--bg-elevated);
+  --color-popover-foreground: var(--text);
+  --color-primary: var(--accent);
+  --color-primary-foreground: #FFFFFF;
+  --color-secondary: var(--bg-2);
+  --color-secondary-foreground: var(--text);
+  --color-muted: var(--bg-2);
+  --color-muted-foreground: var(--text-muted);
+  --color-destructive: var(--danger);
+  --color-destructive-foreground: #FFFFFF;
+  --color-input: var(--border-strong);
+  --color-ring: var(--accent);
+
+  /* Radii */
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
