@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { CategoryPill } from "@/components/category-pill";
@@ -27,6 +28,7 @@ const CHIPS: { label: string; value: StockChip | undefined }[] = [
 ];
 
 export default function InventoryPage() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const [categoryId, setCategoryId] = useState<number | undefined>(undefined);
   const [supplierId, setSupplierId] = useState<number | undefined>(undefined);
@@ -196,7 +198,7 @@ export default function InventoryPage() {
               <tr
                 key={item.id}
                 className="cursor-pointer border-b border-[color:var(--border)] transition-colors hover:bg-white/[0.02] last:border-b-0"
-                onClick={() => (window.location.href = `/inventory/${item.id}`)}
+                onClick={() => router.push(`/inventory/${item.id}`)}
               >
                 <Td>
                   <div className="font-medium">{item.name}</div>
