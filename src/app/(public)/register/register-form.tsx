@@ -42,7 +42,7 @@ export function RegisterForm() {
   return (
     <form
       onSubmit={onSubmit}
-      className="w-[420px] rounded-[var(--r-xl)] border border-[color:var(--border-strong)] bg-[color:var(--surface-glass)] p-12 backdrop-blur-3xl"
+      className="mx-4 w-full max-w-[420px] rounded-[var(--r-xl)] border border-[color:var(--border-strong)] bg-[color:var(--surface-glass)] p-6 backdrop-blur-3xl sm:p-12"
       style={{ boxShadow: "0 40px 80px -40px rgba(0,0,0,0.6)" }}
     >
       <div className="mb-10 flex flex-col items-center gap-4">

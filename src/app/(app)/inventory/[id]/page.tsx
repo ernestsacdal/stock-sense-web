@@ -196,7 +196,8 @@ export default function ItemDetailPage({
       {tab === "movements" && (
         <>
         <div className="overflow-hidden rounded-[var(--r-lg)] border border-[color:var(--border)] bg-[color:var(--surface-glass)]">
-          <table className="w-full border-collapse text-[13px]">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[520px] border-collapse text-[13px]">
             <thead>
               <tr>
                 <Th>When</Th>
@@ -248,6 +249,7 @@ export default function ItemDetailPage({
               )}
             </tbody>
           </table>
+          </div>
         </div>
         <Pagination
           page={movementsPage}
@@ -533,11 +535,11 @@ function Modal({
 }) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="w-[480px] max-w-[90vw] rounded-[var(--r-xl)] border border-[color:var(--border-strong)] bg-[color:var(--bg-2)] p-8"
+        className="w-full max-w-[480px] rounded-[var(--r-xl)] border border-[color:var(--border-strong)] bg-[color:var(--bg-2)] p-6 sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-6 flex items-center justify-between">

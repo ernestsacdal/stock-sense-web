@@ -123,7 +123,7 @@ export default function InventoryPage() {
           placeholder="Search by name or item code…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="min-w-[260px] flex-1 rounded-[var(--r-md)] border border-[color:var(--border)] bg-[color:var(--bg)] px-3 py-2 text-[13px] outline-none focus:border-[color:var(--accent)]"
+          className="min-w-[160px] flex-1 rounded-[var(--r-md)] border border-[color:var(--border)] bg-[color:var(--bg)] px-3 py-2 text-[13px] outline-none focus:border-[color:var(--accent)] sm:min-w-[260px]"
         />
         <Dropdown
           value={categoryId ?? null}
@@ -164,7 +164,8 @@ export default function InventoryPage() {
       </div>
 
       <div className="overflow-hidden rounded-[var(--r-lg)] border border-[color:var(--border)] bg-[color:var(--surface-glass)] backdrop-blur-2xl">
-        <table className="w-full border-collapse">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[640px] border-collapse">
           <thead>
             <tr>
               <Th>Item</Th>
@@ -231,9 +232,10 @@ export default function InventoryPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
 
-      <div className="mt-3 flex items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.15em] text-[color:var(--text-faint)]">
+      <div className="mt-3 flex flex-wrap items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.15em] text-[color:var(--text-faint)]">
         <span>
           {items.data ? `${items.data.length} item${items.data.length === 1 ? "" : "s"} on page` : ""}
         </span>

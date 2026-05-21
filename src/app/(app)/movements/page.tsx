@@ -59,7 +59,8 @@ export default function MovementsPage() {
       </div>
 
       <div className="overflow-hidden rounded-[var(--r-lg)] border border-[color:var(--border)] bg-[color:var(--surface-glass)]">
-        <table className="w-full border-collapse text-[13px]">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[640px] border-collapse text-[13px]">
           <thead>
             <tr>
               <Th>When</Th>
@@ -134,6 +135,7 @@ export default function MovementsPage() {
             })}
           </tbody>
         </table>
+        </div>
       </div>
 
       <Pagination

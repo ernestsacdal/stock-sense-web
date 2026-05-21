@@ -99,11 +99,11 @@ function ConfirmModal({
 }) {
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       onClick={onCancel}
     >
       <div
-        className="w-[440px] max-w-[90vw] rounded-[var(--r-xl)] border border-[color:var(--border-strong)] bg-[color:var(--bg-2)] p-6"
+        className="w-full max-w-[440px] rounded-[var(--r-xl)] border border-[color:var(--border-strong)] bg-[color:var(--bg-2)] p-6"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-subtle)]">

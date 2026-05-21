@@ -48,7 +48,8 @@ export default function SuppliersPage() {
       />
 
       <div className="overflow-hidden rounded-[var(--r-lg)] border border-[color:var(--border)] bg-[color:var(--surface-glass)]">
-        <table className="w-full border-collapse text-[13px]">
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[420px] border-collapse text-[13px]">
           <thead>
             <tr>
               <Th>Name</Th>
@@ -99,6 +100,7 @@ export default function SuppliersPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
 
       <Pagination
@@ -230,11 +232,11 @@ function Modal({
 }) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="w-[520px] max-w-[90vw] rounded-[var(--r-xl)] border border-[color:var(--border-strong)] bg-[color:var(--bg-2)] p-8"
+        className="w-full max-w-[520px] rounded-[var(--r-xl)] border border-[color:var(--border-strong)] bg-[color:var(--bg-2)] p-6 sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-6 flex items-center justify-between">

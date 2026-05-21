@@ -58,20 +58,20 @@ export default function SettingsPage() {
         {(list.data ?? []).map((c) => (
           <div
             key={c.id}
-            className="rounded-[var(--r-lg)] border border-[color:var(--border)] bg-[color:var(--surface-glass)] p-6"
+            className="rounded-[var(--r-lg)] border border-[color:var(--border)] bg-[color:var(--surface-glass)] p-4 sm:p-6"
           >
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-[family-name:var(--font-display)] text-[24px] italic">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="break-words font-[family-name:var(--font-display)] text-[22px] italic sm:text-[24px]">
                   {c.name}
                 </div>
                 {c.description && (
-                  <div className="mt-1 text-[13px] text-[color:var(--text-muted)]">
+                  <div className="mt-1 break-words text-[13px] text-[color:var(--text-muted)]">
                     {c.description}
                   </div>
                 )}
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-shrink-0 gap-2">
                 <button
                   type="button"
                   onClick={() => setEditing(c)}
@@ -141,11 +141,11 @@ function CategoryEditor({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
-        className="w-[480px] max-w-[92vw] rounded-[var(--r-xl)] border border-[color:var(--border-strong)] bg-[color:var(--bg-2)] p-8"
+        className="w-full max-w-[480px] rounded-[var(--r-xl)] border border-[color:var(--border-strong)] bg-[color:var(--bg-2)] p-6 sm:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-6 flex items-center justify-between">

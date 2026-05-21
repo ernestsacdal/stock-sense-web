@@ -37,6 +37,7 @@ export function AskChat() {
   const qc = useQueryClient();
   const history = useAskHistory(20);
 
+  const [historyOpen, setHistoryOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -147,66 +148,87 @@ export function AskChat() {
     setMessages([userMsg, aiMsg]);
   }
 
+  // Close the mobile history drawer whenever a turn is loaded (the
+  // user clicked a history row, drawer should dismiss to reveal the
+  // chat). Desktop sidebar ignores this since historyOpen only
+  // controls the mobile overlay.
+  function loadAndCloseDrawer(turn: QueryLog) {
+    loadTurn(turn);
+    setHistoryOpen(false);
+  }
+
   return (
-    <div className="grid h-[calc(100vh-160px)] grid-cols-[280px_1fr] gap-4">
-      <aside className="flex flex-col overflow-hidden rounded-[var(--r-lg)] border border-[color:var(--border)] bg-[color:var(--surface-glass)] backdrop-blur-2xl">
+    <div className="grid h-[calc(100vh-200px)] grid-cols-1 gap-4 md:h-[calc(100vh-160px)] md:grid-cols-[280px_1fr]">
+      {/* Desktop history sidebar (md+) */}
+      <aside className="hidden flex-col overflow-hidden rounded-[var(--r-lg)] border border-[color:var(--border)] bg-[color:var(--surface-glass)] backdrop-blur-2xl md:flex">
         <div className="border-b border-[color:var(--border)] px-4 py-3 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-subtle)]">
           History
         </div>
-        <div className="flex-1 overflow-y-auto py-1">
-          {history.isLoading && (
-            <div className="px-4 py-6 text-center font-mono text-[10px] uppercase tracking-[0.15em] text-[color:var(--text-faint)]">
-              Loading…
-            </div>
-          )}
-          {history.data && history.data.length === 0 && (
-            <div className="px-4 py-6 text-center text-[12px] text-[color:var(--text-faint)]">
-              Your previous questions will appear here.
-            </div>
-          )}
-          {(history.data ?? []).map((turn) => (
-            <button
-              key={turn.id}
-              type="button"
-              onClick={() => loadTurn(turn)}
-              className="block w-full border-b border-[color:var(--border)] px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-white/[0.03]"
-            >
-              <div className="line-clamp-2 text-[12.5px]">{turn.question}</div>
-              <div className="mt-1 flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--text-faint)]">
-                <span
-                  className={cn(
-                    "rounded px-1.5 py-0.5",
-                    turn.status === "ok"
-                      ? "bg-[color:var(--success-soft)] text-[color:var(--success)]"
-                      : "bg-[color:var(--danger-soft)] text-[color:var(--danger)]"
-                  )}
-                >
-                  {turn.status}
-                </span>
-                {turn.row_count != null && <span>{turn.row_count} rows</span>}
-                <span>{turn.duration_ms}ms</span>
-              </div>
-            </button>
-          ))}
-        </div>
+        <HistoryList
+          history={history}
+          onPick={loadTurn}
+        />
       </aside>
 
+      {/* Mobile history drawer (< md) */}
+      {historyOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+            onClick={() => setHistoryOpen(false)}
+            aria-hidden
+          />
+          <aside className="fixed inset-y-0 left-0 z-50 flex w-80 max-w-[85vw] flex-col overflow-hidden border-r border-[color:var(--border)] bg-[color:var(--bg-2)] shadow-2xl md:hidden">
+            <div className="flex items-center justify-between border-b border-[color:var(--border)] px-4 py-3">
+              <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--text-subtle)]">
+                History
+              </span>
+              <button
+                type="button"
+                onClick={() => setHistoryOpen(false)}
+                aria-label="Close history"
+                className="flex h-7 w-7 items-center justify-center rounded-[var(--r-md)] text-[color:var(--text-muted)] transition-colors hover:bg-white/[0.05] hover:text-[color:var(--text)]"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <HistoryList
+              history={history}
+              onPick={loadAndCloseDrawer}
+            />
+          </aside>
+        </>
+      )}
+
       <section className="flex flex-col overflow-hidden rounded-[var(--r-lg)] border border-[color:var(--border)] bg-[color:var(--bg-2)]">
-        <div className="flex items-center gap-3 border-b border-[color:var(--border)] px-6 py-4">
+        <div className="flex items-center gap-3 border-b border-[color:var(--border)] px-4 py-3 md:px-6 md:py-4">
+          {/* Mobile history toggle */}
+          <button
+            type="button"
+            onClick={() => setHistoryOpen(true)}
+            aria-label="Open history"
+            className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-[var(--r-md)] border border-[color:var(--border)] bg-[color:var(--surface-glass)] text-[color:var(--text-muted)] hover:bg-white/[0.05] hover:text-[color:var(--text)] md:hidden"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+          </button>
           <span
-            className="h-2 w-2 rounded-full"
+            className="hidden h-2 w-2 rounded-full md:block"
             style={{
               background: "var(--accent)",
               boxShadow: "0 0 0 0 var(--accent-glow)",
               animation: "pulse 2.4s infinite",
             }}
           />
-          <h2 className="font-[family-name:var(--font-display)] text-[24px] italic">
+          <h2 className="font-[family-name:var(--font-display)] text-[20px] italic md:text-[24px]">
             Ask StockSense
           </h2>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-12 py-8">
+        <div className="flex-1 overflow-y-auto px-4 py-6 md:px-12 md:py-8">
           {messages.length === 0 && <EmptyState onPick={ask} />}
           <div className="flex flex-col gap-6">
             {messages.map((m) => (
@@ -217,7 +239,7 @@ export function AskChat() {
         </div>
 
         <div
-          className="border-t border-[color:var(--border)] px-12 pb-6 pt-5"
+          className="border-t border-[color:var(--border)] px-4 pb-4 pt-4 md:px-12 md:pb-6 md:pt-5"
           style={{ background: "linear-gradient(180deg, transparent, var(--bg-2) 30%)" }}
         >
           <form
@@ -283,6 +305,56 @@ export function AskChat() {
           }
         }
       `}</style>
+    </div>
+  );
+}
+
+// Shared history list rendered in both the desktop sidebar and the
+// mobile drawer. `onPick` is the only difference (desktop just loads;
+// mobile also closes the drawer).
+function HistoryList({
+  history,
+  onPick,
+}: {
+  history: ReturnType<typeof useAskHistory>;
+  onPick: (turn: QueryLog) => void;
+}) {
+  return (
+    <div className="flex-1 overflow-y-auto py-1">
+      {history.isLoading && (
+        <div className="px-4 py-6 text-center font-mono text-[10px] uppercase tracking-[0.15em] text-[color:var(--text-faint)]">
+          Loading…
+        </div>
+      )}
+      {history.data && history.data.length === 0 && (
+        <div className="px-4 py-6 text-center text-[12px] text-[color:var(--text-faint)]">
+          Your previous questions will appear here.
+        </div>
+      )}
+      {(history.data ?? []).map((turn) => (
+        <button
+          key={turn.id}
+          type="button"
+          onClick={() => onPick(turn)}
+          className="block w-full border-b border-[color:var(--border)] px-4 py-3 text-left transition-colors last:border-b-0 hover:bg-white/[0.03]"
+        >
+          <div className="line-clamp-2 text-[12.5px]">{turn.question}</div>
+          <div className="mt-1 flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.12em] text-[color:var(--text-faint)]">
+            <span
+              className={cn(
+                "rounded px-1.5 py-0.5",
+                turn.status === "ok"
+                  ? "bg-[color:var(--success-soft)] text-[color:var(--success)]"
+                  : "bg-[color:var(--danger-soft)] text-[color:var(--danger)]"
+              )}
+            >
+              {turn.status}
+            </span>
+            {turn.row_count != null && <span>{turn.row_count} rows</span>}
+            <span>{turn.duration_ms}ms</span>
+          </div>
+        </button>
+      ))}
     </div>
   );
 }
