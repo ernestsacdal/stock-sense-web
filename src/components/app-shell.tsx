@@ -278,9 +278,6 @@ function SidebarContents({
                 <span className="block truncate text-[13px] font-medium text-[color:var(--text)]">
                   {user.email}
                 </span>
-                <span className="block font-mono text-[10px] uppercase tracking-[0.1em] text-[color:var(--text-faint)]">
-                  {user.role}
-                </span>
               </span>
               <svg
                 viewBox="0 0 24 24"

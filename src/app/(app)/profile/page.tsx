@@ -71,13 +71,12 @@ export default function ProfilePage() {
       <PageHeader crumb="Account · Profile" title="Edit profile" />
 
       <div className="mb-6 rounded-[var(--r-lg)] border border-[color:var(--border)] bg-[color:var(--surface-glass)] p-6">
-        <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="mb-4">
           <Meta label="Email" value={user?.email ?? "—"} />
-          <Meta label="Role" value={user?.role ?? "—"} mono />
         </div>
         <p className="text-[12px] text-[color:var(--text-faint)]">
           Email is the key you use to sign in and can&apos;t be changed
-          here. Role changes require an admin.
+          here.
         </p>
       </div>
 
