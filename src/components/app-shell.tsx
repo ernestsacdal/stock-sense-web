@@ -98,7 +98,7 @@ const NAV: NavSection[] = [
 
 type AppShellProps = {
   children: ReactNode;
-  user?: { email: string; role: string };
+  user?: { email: string };
   onLogout?: () => void;
 };
 
@@ -194,7 +194,7 @@ function SidebarContents({
   onLogout,
 }: {
   pathname: string;
-  user?: { email: string; role: string };
+  user?: { email: string };
   onLogout?: () => void;
 }) {
   const router = useRouter();

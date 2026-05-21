@@ -19,7 +19,6 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 export type User = {
   id: number;
   email: string;
-  role: "admin" | "manager" | "staff";
   business_name: string | null;
 };
 export type AuthStatus = "loading" | "authenticated" | "unauthenticated";
