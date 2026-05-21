@@ -11,7 +11,10 @@ import {
   type ReactNode,
 } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+// Empty fallback → relative URLs in prod that go through next.config.ts
+// rewrites (proxied to Render). Set NEXT_PUBLIC_API_URL=http://localhost:8000
+// in .env.local for direct local-backend dev.
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "";
 
 export type User = {
   id: number;
