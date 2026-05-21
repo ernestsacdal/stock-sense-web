@@ -28,7 +28,7 @@ export type Item = {
   id: number;
   sku: string;
   name: string;
-  category_id: number;
+  category_id: number | null;
   supplier_id: number | null;
   location_id: number | null;
   reorder_threshold: number | null;
@@ -45,7 +45,7 @@ export type ItemSummary = {
   id: number;
   sku: string;
   name: string;
-  category_id: number;
+  category_id: number | null;
   supplier_id: number | null;
   location_id: number | null;
   location_name: string | null;

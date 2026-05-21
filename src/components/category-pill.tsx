@@ -10,7 +10,13 @@ const TONES: Record<string, string> = {
 };
 
 export function CategoryPill({ name }: { name: string | undefined }) {
-  if (!name) return null;
+  // No category set — render a faint em dash so the column doesn't
+  // look broken next to populated rows.
+  if (!name) {
+    return (
+      <span className="font-mono text-[12px] text-[color:var(--text-faint)]">—</span>
+    );
+  }
   const tone = TONES[name] ?? "text-[color:var(--text-muted)] border-[color:var(--border)] bg-white/[0.05]";
   return (
     <span

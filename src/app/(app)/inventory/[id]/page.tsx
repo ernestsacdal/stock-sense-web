@@ -61,7 +61,10 @@ export default function ItemDetailPage({
     );
   }
 
-  const cat = (categories.data ?? []).find((c) => c.id === item.data!.category_id);
+  const cat =
+    item.data!.category_id != null
+      ? (categories.data ?? []).find((c) => c.id === item.data!.category_id)
+      : undefined;
   const sup = (suppliers.data ?? []).find((s) => s.id === item.data!.supplier_id);
   const onHand = item.data.quantity;
   const threshold = item.data.reorder_threshold;

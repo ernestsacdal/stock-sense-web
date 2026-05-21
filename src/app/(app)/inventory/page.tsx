@@ -211,7 +211,9 @@ export default function InventoryPage() {
                   </div>
                 </Td>
                 <Td>
-                  <CategoryPill name={categoryById.get(item.category_id)} />
+                  <CategoryPill
+                    name={item.category_id != null ? categoryById.get(item.category_id) : undefined}
+                  />
                 </Td>
                 <Td>
                   <div className="font-mono text-[13px]">{item.on_hand}</div>
@@ -330,7 +332,7 @@ function exportInventoryCsv(
   const rows = items.map((i) => [
     i.sku,
     i.name,
-    categoryById.get(i.category_id) ?? "",
+    i.category_id != null ? (categoryById.get(i.category_id) ?? "") : "",
     i.supplier_id != null ? supplierById.get(i.supplier_id) ?? "" : "",
     i.location_name ?? "",
     i.on_hand,

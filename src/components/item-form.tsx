@@ -57,10 +57,6 @@ export function ItemForm({ item }: ItemFormProps) {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    if (!categoryId) {
-      setError("Pick a category first");
-      return;
-    }
     const body: Record<string, unknown> = {
       sku,
       name,
@@ -105,13 +101,13 @@ export function ItemForm({ item }: ItemFormProps) {
           <Field label="Name" required>
             <input value={name} onChange={(e) => setName(e.target.value)} className={INPUT} required />
           </Field>
-          <Field label="Category" required>
+          <Field label="Category">
             <Dropdown
               value={categoryId}
               options={categoryOptions}
-              placeholder="Pick a category…"
+              placeholder="Pick a category (optional)…"
               onChange={(v) => setCategoryId(v)}
-              required
+              nullable
               size="md"
               className="w-full"
             />

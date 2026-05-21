@@ -94,12 +94,18 @@ export function useUpdateCategory() {
   );
 }
 
+async function okVoid(r: Response): Promise<void> {
+  if (!r.ok) {
+    const body = await r.json().catch(() => null);
+    const detail = (body as { detail?: string } | null)?.detail ?? r.statusText;
+    throw new Error(detail);
+  }
+}
+
 export function useDeleteCategory() {
   return useResourceMutation<void, number>(
     (fetcher, id) =>
-      fetcher(`/api/categories/${id}`, { method: "DELETE" }).then((r) => {
-        if (!r.ok) throw new Error(r.statusText);
-      }),
+      fetcher(`/api/categories/${id}`, { method: "DELETE" }).then(okVoid),
     ["categories"]
   );
 }
@@ -142,9 +148,7 @@ export function useUpdateSupplier() {
 export function useDeleteSupplier() {
   return useResourceMutation<void, number>(
     (fetcher, id) =>
-      fetcher(`/api/suppliers/${id}`, { method: "DELETE" }).then((r) => {
-        if (!r.ok) throw new Error(r.statusText);
-      }),
+      fetcher(`/api/suppliers/${id}`, { method: "DELETE" }).then(okVoid),
     ["suppliers"]
   );
 }
@@ -187,9 +191,7 @@ export function useUpdateLocation() {
 export function useDeleteLocation() {
   return useResourceMutation<void, number>(
     (fetcher, id) =>
-      fetcher(`/api/locations/${id}`, { method: "DELETE" }).then((r) => {
-        if (!r.ok) throw new Error(r.statusText);
-      }),
+      fetcher(`/api/locations/${id}`, { method: "DELETE" }).then(okVoid),
     ["locations"]
   );
 }
